@@ -5,6 +5,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
+import sharedObjects.connectionObjects.interfaces.ClientInterface;
 import sharedObjects.gameObjects.interfaces.GameMap;
 import sharedObjects.gameObjects.interfaces.Match;
 import sharedObjects.gameObjects.interfaces.Player;
@@ -26,13 +27,11 @@ public class MatchImplementation implements Match, Serializable {
 		return players;
 	}
 
-
-
 	@Override
-	public void Fire(float angle, float power) throws RemoteException{
-		System.out.println("------");
-		System.out.println("Fire");
-		System.out.println("------");
+	public void Fire(ClientInterface sender, float angle, float power)
+			throws RemoteException {
+		// TODO Auto-generated method stub
+		
 	}
 	
 

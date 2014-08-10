@@ -8,18 +8,25 @@ import sharedObjects.connectionObjects.interfaces.ClientInterface;
 import sharedObjects.connectionObjects.interfaces.ServerEntryPoint;
 
 public class ServerEntryPointImplementation implements ServerEntryPoint {
+	
+	/**
+	 * List with the clients, which waiting for a connection
+	 */
 	private LinkedList<ClientInterface> waitingClients = new LinkedList<ClientInterface>();
 	
+	
+	/**
+	 * Function called, when a client is connecting the Server
+	 */
 	@Override
 	public void registerClient (ClientInterface client) throws RemoteException {
+		System.out.println("Client connected");
 		if (waitingClients.size() >= 1)
 		{
-			System.out.println("Found Partner");
 			this.startGame(waitingClients.poll(), client);
 		}
 		else
 		{
-			System.out.println("Found NO Partner");
 			waitingClients.addLast(client);
 		}
 

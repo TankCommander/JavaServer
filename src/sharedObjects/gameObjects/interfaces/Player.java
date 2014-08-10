@@ -6,6 +6,7 @@ import java.rmi.RemoteException;
 public interface Player extends Remote {
 	
 	public String getName ()  throws RemoteException;
-	public String getDamage ()  throws RemoteException;
+	public double getDamage ()  throws RemoteException;
+	public void addDamage (double damage) throws RemoteException;
 
 }
