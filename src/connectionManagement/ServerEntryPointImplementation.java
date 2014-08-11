@@ -19,15 +19,17 @@ public class ServerEntryPointImplementation implements ServerEntryPoint {
 	 * Function called, when a client is connecting the Server
 	 */
 	@Override
-	public void registerClient (ClientInterface client) throws RemoteException {
+	public boolean registerClient (ClientInterface client) throws RemoteException {
 		System.out.println("Client connected");
 		if (waitingClients.size() >= 1)
 		{
 			this.startGame(waitingClients.poll(), client);
+			return true;
 		}
 		else
 		{
 			waitingClients.addLast(client);
+			return false;
 		}
 
 	}
@@ -35,7 +37,7 @@ public class ServerEntryPointImplementation implements ServerEntryPoint {
 	private void startGame (ClientInterface firstPlayer, ClientInterface secondPlayer) throws RemoteException
 	{
 		System.out.println("StartGame");
-		MatchImplementation match = new MatchImplementation();
+		MatchImplementation match = new MatchImplementation(firstPlayer.getPlayer(), secondPlayer.getPlayer());
 		firstPlayer.gameObject(match);
 		secondPlayer.gameObject(match);
 	}

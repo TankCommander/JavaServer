@@ -17,14 +17,15 @@ public class MatchImplementation implements Match, Serializable {
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private GameMap map;
 	
-	public MatchImplementation () throws RemoteException
+	public MatchImplementation (Player player1, Player player2) throws RemoteException
 	{
 		UnicastRemoteObject.exportObject(this, 0);
-	}
-	
-	@Override
-	public ArrayList<Player> getPlayers() throws RemoteException {
-		return players;
+		
+		//Set the players
+		players.add(player1);
+		players.add(player2);
+		//Create the Map
+		//TODO: Mike kannst du hier bitte eine Map erzeugen ;) 
 	}
 
 	@Override
@@ -32,6 +33,20 @@ public class MatchImplementation implements Match, Serializable {
 			throws RemoteException {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	////////////////////
+	//Getter + Setter//
+	//////////////////
+	@Override
+	public GameMap getMap() throws RemoteException {
+		// TODO Auto-generated method stub
+		return map;
+	}
+	
+	@Override
+	public ArrayList<Player> getPlayers() throws RemoteException {
+		return players;
 	}
 	
 
