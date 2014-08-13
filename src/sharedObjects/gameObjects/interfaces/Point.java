@@ -5,7 +5,7 @@ import java.rmi.RemoteException;
 
 public interface Point extends Remote {
 	
-	public int getX ()  throws RemoteException;
-	public int getY ()  throws RemoteException;
+	public double getX ()  throws RemoteException;
+	public double getY ()  throws RemoteException;
 
 }

@@ -6,6 +6,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
 import sharedObjects.connectionObjects.interfaces.ClientInterface;
+import sharedObjects.gameObjects.implementations.GameMapImpl;
 import sharedObjects.gameObjects.interfaces.GameMap;
 import sharedObjects.gameObjects.interfaces.Match;
 import sharedObjects.gameObjects.interfaces.Player;
@@ -26,6 +27,7 @@ public class MatchImplementation implements Match, Serializable {
 		players.add(player2);
 		//Create the Map
 		//TODO: Mike kannst du hier bitte eine Map erzeugen ;) 
+		map = new GameMapImpl(MatchBuilder.getNewHorizonSkeleton());
 	}
 
 	@Override
