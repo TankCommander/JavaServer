@@ -32,4 +32,10 @@ public class GameMapImpl implements GameMap {
 		return null;
 	}
 
+	@Override
+	public int getY_Value(int x) throws RemoteException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

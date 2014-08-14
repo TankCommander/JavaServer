@@ -8,5 +8,6 @@ public interface Player extends Remote {
 	public String getName ()  throws RemoteException;
 	public double getDamage ()  throws RemoteException;
 	public void addDamage (double damage) throws RemoteException;
+	public void setMatch(Match match);
 
 }

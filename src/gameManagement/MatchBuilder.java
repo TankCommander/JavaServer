@@ -1,11 +1,18 @@
 package gameManagement;
 
+import sharedObjects.gameObjects.implementations.GameMapImpl;
 import sharedObjects.gameObjects.implementations.PointImplementation;
+import sharedObjects.gameObjects.interfaces.GameMap;
+import sharedObjects.gameObjects.interfaces.Player;
 import sharedObjects.gameObjects.interfaces.Point;
+import sun.security.util.Length;
 
 import java.lang.reflect.Array;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Dictionary;
+import java.util.Hashtable;
 import java.util.Random;
 
 class MatchBuilder {
@@ -34,7 +41,9 @@ class MatchBuilder {
 
         while (points.size() < points_count && num_loops < MAX_LOOPS){
         	/// TODO...
-            num_loops += 1;
+        	break;
+        	
+//            num_loops += 1;
 //            points.append(Point(MatchBuilder.f_random.randint(1, max_x),
 //                          MatchBuilder.f_random.randint(Consts.MIN_HORIZON_HEIGHT, Consts.MAX_HORIZON_HEIGHT)))
 //
@@ -66,4 +75,58 @@ class MatchBuilder {
         return points;
 	}        		
 
+	public static GameMap getNewGameMap(){
+		return new GameMapImpl(MatchBuilder.getNewHorizonSkeleton());		
+	}
+	
+	public static Dictionary<Player,Integer> get_new_player_x_positions(ArrayList<Player> players){
+		
+		int world_width = Consts.WORLD_WIDTH;
+		Dictionary<Player,Integer>  result = new Hashtable<Player,Integer>(players.size());
+
+//        # etwas übertrieben kompliziert, evtl. können mehr als 2 Player spielen?
+        double parts_width = (double)world_width / (players.size() + 1);
+        for (int i=0; i<players.size(); i++){
+            if (i < players.size() / 2) {
+            	
+            result.put(players.get(i), (int) Math.max(Math.round(i * parts_width + Consts.PLAYER_RADIUS +
+                    ((parts_width-2* Consts.PLAYER_RADIUS) * random.nextDouble()))-1,0));
+            } else {
+                result.put(players.get(i), (int) Math.max(Math.round((i + 1) * parts_width + Consts.PLAYER_RADIUS +
+                    ((parts_width-2* Consts.PLAYER_RADIUS ) * random.nextDouble()))-1,0));
+            };
+        };
+        
+//        TODO: testen
+        return result;
+	}
+
+	public static ArrayList<Player> getShuffledPlayers(ArrayList<Player> players){
+//	    player_order = range(len(players))
+		ArrayList<Player> result = new ArrayList<Player>(players.size());
+		
+		ArrayList<Player> tempPlayers = new ArrayList<Player>(players.size());
+		tempPlayers.addAll(players);
+		
+		for (int i=tempPlayers.size(); i>0; i--){
+			// [0..i) wird ausgelost
+			int index = random.nextInt(i);
+			result.add(tempPlayers.remove(index));
+		}
+		return result;
+	}
+
+	public static Dictionary<Player, Point> getNewPlayerPositions(GameMap map, ArrayList<Player> players) throws RemoteException {
+		
+		Dictionary<Player, Point> result = new Hashtable<Player, Point>(players.size());
+		Dictionary<Player,Integer> xPositions = get_new_player_x_positions(players);
+		
+		for (Player player : players) {
+			int x = xPositions.get(player);
+			result.put(player, new PointImplementation(x, map.getY_Value(x)+Consts.PLAYER_RADIUS));
+		};
+		return result;
+	}
+
+	
 }
