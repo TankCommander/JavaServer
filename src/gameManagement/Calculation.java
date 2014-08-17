@@ -1,13 +1,14 @@
 package gameManagement;
 
+import gameManagement.gameObjects.implementations.FlightPathImpl;
+import gameManagement.gameObjects.implementations.HitImpl;
+import gameManagement.gameObjects.implementations.PointImpl;
+import gameManagement.gameObjects.implementations.TimePointImpl;
+
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Dictionary;
 
-import sharedObjects.gameObjects.implementations.HitImpl;
-import sharedObjects.gameObjects.implementations.FlightPathImpl;
-import sharedObjects.gameObjects.implementations.PointImpl;
-import sharedObjects.gameObjects.implementations.TimePointImpl;
 
 import sharedObjects.gameObjects.interfaces.FlightPath;
 import sharedObjects.gameObjects.interfaces.Hit;
@@ -47,7 +48,7 @@ public class Calculation {
     
     public FlightPath calc_flugbahn(Player source, double angle, double speed) throws RemoteException{
 
-        source.setAngle(angle); // für Client zur Anzeige des Geschützwinkels
+        source.setAngle(angle); // fï¿½r Client zur Anzeige des Geschï¿½tzwinkels
 
         FlightPath flugbahn = this.__calc_flugbahn(source, angle, speed);
 
@@ -62,10 +63,10 @@ public class Calculation {
         for (Hit hit : flugbahn.getHits())
                 hit.getTarget().addDamage(hit.getPercent());
 
-        // Flugbahn kürzen, endet beim ersten Treffer!
+        // Flugbahn kï¿½rzen, endet beim ersten Treffer!
         if (!flugbahn.getHits().isEmpty()){
             for (int i=0; i<flugbahn.getTimePoints().size()-1; i++){
-            	// einzeln durchgehen, zwischendurch können welche fehlen...
+            	// einzeln durchgehen, zwischendurch kï¿½nnen welche fehlen...
                 if (flugbahn.getTimePoints().get(i).getT() > flugbahn.getHits().get(0).getT()){
                     flugbahn.setTimePoints((ArrayList<TimePoint>) flugbahn.getTimePoints().subList(0, i-1));
                     break;
@@ -87,11 +88,11 @@ public class Calculation {
     
     private boolean __is_horizon_hit(TimePoint bullet_pos) throws RemoteException{
 //        # Horizonttreffer am Rand des Geschosses oder in doch erst in der Mitte ?
-//        # TODO: Horizonthöhe berechnen / interpolieren?
+//        # TODO: Horizonthï¿½he berechnen / interpolieren?
     	
         int pos_x = (int)(Math.round(bullet_pos.getX()));
         
-//        # Überprüfung ist eigentlich redundant
+//        # ï¿½berprï¿½fung ist eigentlich redundant
         if (__x_is_in_world(pos_x))
             return bullet_pos.getY() <= horizonLine.get(pos_x).getY();
         else
@@ -106,17 +107,17 @@ public class Calculation {
     }
 
     private double __calc_target_hit_percent(Point target_pos, Point bullet_pos) throws RemoteException{
-//        # kürzesten Abstand zwischen Ziel und Geschossmittelpunkt mit Pytagoras ermitteln
+//        # kï¿½rzesten Abstand zwischen Ziel und Geschossmittelpunkt mit Pytagoras ermitteln
         double distanceValue = Math.hypot(target_pos.getX() - bullet_pos.getX(), target_pos.getY() - bullet_pos.getY());
 
         int distanceRadii = Consts.PLAYER_RADIUS + Consts.BULLET_RADIUS;
         double overlap = distanceRadii - distanceValue;
 
-        // Überlappung > 0 = Treffer
+        // ï¿½berlappung > 0 = Treffer
         if (overlap > 0){
-//            # Überdeckung der Kreisradien als Maß für Treffer-% ermitteln
-//            # ggf. Flächeninhalt der Überdeckung als genaueres Treffermaß berechnen
-//            # Rückgabe %-genau
+//            # ï¿½berdeckung der Kreisradien als Maï¿½ fï¿½r Treffer-% ermitteln
+//            # ggf. Flï¿½cheninhalt der ï¿½berdeckung als genaueres Treffermaï¿½ berechnen
+//            # Rï¿½ckgabe %-genau
             return Math.round(100*(double)(overlap) / distanceRadii) / 100;
         } else {
             return 0;
@@ -133,11 +134,11 @@ public class Calculation {
         Point bottomRight = new PointImpl(target_pos.getX() + Consts.PLAYER_RADIUS, target_pos.getY() - Consts.PLAYER_RADIUS);
         
         for (TimePoint point : flugbahn.getTimePoints()){
-            // zuerst grob prüfen, ob Zielrechteck getroffen wurde
+            // zuerst grob prï¿½fen, ob Zielrechteck getroffen wurde
             if (topLeft.getX() < point.getX() && point.getX() <= bottomRight.getX() &&
                 point.getY() <= topLeft.getY() && point.getY() >= bottomRight.getY()){
-                // X und Y des Geschosses im Zielrechteck, Treffer anhand der Umkreise genauer prüfen
-                // Maximalwert zurückgeben
+                // X und Y des Geschosses im Zielrechteck, Treffer anhand der Umkreise genauer prï¿½fen
+                // Maximalwert zurï¿½ckgeben
                 double hitPercent = __calc_target_hit_percent(target_pos, point);
                 if (result.getPercent() < hitPercent){
                     result.setX(point.getX());
@@ -166,7 +167,7 @@ public class Calculation {
                 t += Consts.TIME_RESOLUTION;
                 point = __calc_pos(t, source_pos, angle, speed);
                 if (point.getY() <= Consts.WORLD_HEIGHT + Consts.BULLET_RADIUS &&
-                    __is_out_of_radius(source, point)){ // darf / muss drüber gehen
+                    __is_out_of_radius(source, point)){ // darf / muss drï¿½ber gehen
                     result.getTimePoints().add(point);
                 }
         }
@@ -175,7 +176,7 @@ public class Calculation {
     }
 
     TimePoint __calc_pos(double t, Point source_pos, double angle, double speed) throws RemoteException{
-//        # ohne Berücksichtigung Luftwiderstand
+//        # ohne Berï¿½cksichtigung Luftwiderstand
 //        #v_x0=cos(phi)*v_0
 //        #v_y0=sin(phi)*v_0
 //        #s_x=v_x0 * t

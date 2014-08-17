@@ -1,4 +1,4 @@
-package sharedObjects.gameObjects.implementations;
+package gameManagement.gameObjects.implementations;
 
 import gameManagement.Calculation;
 
@@ -34,7 +34,7 @@ public class GameMapImpl implements GameMap {
             start_point = point;
             }
             
-        result.add(start_point); // letzten Punkt noch extra einfügen
+        result.add(start_point); // letzten Punkt noch extra einfuegen
 
         return result;
         }

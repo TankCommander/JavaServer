@@ -1,4 +1,4 @@
-package sharedObjects.gameObjects.implementations;
+package gameManagement.gameObjects.implementations;
 
 import sharedObjects.gameObjects.interfaces.TimePoint;
 

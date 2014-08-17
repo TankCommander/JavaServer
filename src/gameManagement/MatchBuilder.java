@@ -1,5 +1,8 @@
 package gameManagement;
 
+import gameManagement.gameObjects.implementations.GameMapImpl;
+import gameManagement.gameObjects.implementations.PointImpl;
+
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,8 +10,6 @@ import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.Random;
 
-import sharedObjects.gameObjects.implementations.GameMapImpl;
-import sharedObjects.gameObjects.implementations.PointImpl;
 import sharedObjects.gameObjects.interfaces.GameMap;
 import sharedObjects.gameObjects.interfaces.Player;
 import sharedObjects.gameObjects.interfaces.Point;
@@ -55,7 +56,7 @@ class MatchBuilder {
 //                else:
 //                    c = abs(Calculation.derivation(start_point, point))
 //                    if c > Consts.MAX_DERIVATION:
-//                        if point.x > (max_x): #Endpunkt nicht löschen ?!
+//                        if point.x > (max_x): #Endpunkt nicht lï¿½schen ?!
 //                            points.remove(start_point)
 //                        else:
 //                            points.remove(point)
@@ -82,7 +83,7 @@ class MatchBuilder {
 		int world_width = Consts.WORLD_WIDTH;
 		Dictionary<Player,Integer>  result = new Hashtable<Player,Integer>(players.size());
 
-//        # etwas übertrieben kompliziert, evtl. können mehr als 2 Player spielen?
+//        # etwas ï¿½bertrieben kompliziert, evtl. kï¿½nnen mehr als 2 Player spielen?
         double parts_width = (double)world_width / (players.size() + 1);
         for (int i=0; i<players.size(); i++){
             if (i < players.size() / 2) {
