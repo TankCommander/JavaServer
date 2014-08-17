@@ -30,7 +30,7 @@ public class MatchImplementation implements Match, Serializable {
 		map = MatchBuilder.getNewGameMap();
 		
 		//Set the players
-		players = MatchBuilder.getShuffledPlayers(players);	
+		this.players = MatchBuilder.getShuffledPlayers(players);	
 		//Set backreference for players
 	    for (Player player : players) 
 			player.setMatch(this);

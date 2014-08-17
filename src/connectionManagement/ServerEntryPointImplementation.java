@@ -41,7 +41,7 @@ public class ServerEntryPointImplementation implements ServerEntryPoint {
 	private void startGame (ClientInterface firstPlayer, ClientInterface secondPlayer) throws RemoteException
 	{
 		System.out.println("StartGame");
-		MatchImplementation match = new MatchImplementation((ArrayList<Player>) Arrays.asList(firstPlayer.getPlayer(), secondPlayer.getPlayer()));
+		MatchImplementation match = new MatchImplementation(new ArrayList<Player>(Arrays.asList(firstPlayer.getPlayer(), secondPlayer.getPlayer())));
 		firstPlayer.gameObject(match);
 		secondPlayer.gameObject(match);
 	}
