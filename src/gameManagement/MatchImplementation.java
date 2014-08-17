@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Dictionary;
 
 import sharedObjects.connectionObjects.interfaces.ClientInterface;
-import sharedObjects.gameObjects.implementations.GameMapImpl;
+import sharedObjects.gameObjects.interfaces.FlightPath;
 import sharedObjects.gameObjects.interfaces.GameMap;
 import sharedObjects.gameObjects.interfaces.Match;
 import sharedObjects.gameObjects.interfaces.Player;
@@ -17,11 +17,12 @@ public class MatchImplementation implements Match, Serializable {
 
 	private static final long serialVersionUID = -7945851571685082676L;
 	
+	private Calculation calculation;
 	private Dictionary<Player, Point> playerPositions;
 	private ArrayList<Player> players;
 	private GameMap map;
 	
-	public MatchImplementation (Player player1, Player player2) throws RemoteException
+	public MatchImplementation (ArrayList<Player> players) throws RemoteException
 	{
 		UnicastRemoteObject.exportObject(this, 0);
 		
@@ -35,6 +36,8 @@ public class MatchImplementation implements Match, Serializable {
 			player.setMatch(this);
 		
 	    playerPositions = MatchBuilder.getNewPlayerPositions(map, players);
+	    
+	    this.calculation = new Calculation(Consts.WORLD_WIDTH, map.getHorizonLine(), players, playerPositions);
 	}
 	
 	public Point getPlayerPosition(Player player){
@@ -60,6 +63,17 @@ public class MatchImplementation implements Match, Serializable {
 	@Override
 	public ArrayList<Player> getPlayers() throws RemoteException {
 		return players;
+	}
+
+	@Override
+	public Player getActivePlayer() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public FlightPath calcFlightPath(Player source, double angle, double speed) throws RemoteException {
+		return calculation.calc_flugbahn(source, angle, speed);
 	}
 	
 

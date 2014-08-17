@@ -1,19 +1,17 @@
 package gameManagement;
 
-import sharedObjects.gameObjects.implementations.GameMapImpl;
-import sharedObjects.gameObjects.implementations.PointImplementation;
-import sharedObjects.gameObjects.interfaces.GameMap;
-import sharedObjects.gameObjects.interfaces.Player;
-import sharedObjects.gameObjects.interfaces.Point;
-import sun.security.util.Length;
-
-import java.lang.reflect.Array;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.Random;
+
+import sharedObjects.gameObjects.implementations.GameMapImpl;
+import sharedObjects.gameObjects.implementations.PointImpl;
+import sharedObjects.gameObjects.interfaces.GameMap;
+import sharedObjects.gameObjects.interfaces.Player;
+import sharedObjects.gameObjects.interfaces.Point;
 
 class MatchBuilder {
 	static Random random = new Random();
@@ -32,15 +30,15 @@ class MatchBuilder {
         int num_loops = 0;
 
 //        # Anfang und Ende setzen - inkonsistent, bad smell!
-        points.add(new PointImplementation(0, 
+        points.add(new PointImpl(0, 
         		Consts.MIN_HORIZON_HEIGHT + random.nextInt(Consts.MAX_HORIZON_HEIGHT + 1 - Consts.MIN_HORIZON_HEIGHT)));
-        points.add(new PointImplementation(world_width - 1,
+        points.add(new PointImpl(world_width - 1,
         		Consts.MIN_HORIZON_HEIGHT + random.nextInt(Consts.MAX_HORIZON_HEIGHT + 1 - Consts.MIN_HORIZON_HEIGHT)));
 
-        int max_x = world_width - 2;
+//        int max_x = world_width - 2;
 
         while (points.size() < points_count && num_loops < MAX_LOOPS){
-        	/// TODO...
+        	/// TODO: Horizont erstellen
         	break;
         	
 //            num_loops += 1;
@@ -70,12 +68,12 @@ class MatchBuilder {
         }
         
 //        #TODO Random wieder aktivieren
-        points.addAll(Arrays.asList(new PointImplementation(0,0), new PointImplementation(100,100), new PointImplementation(500,100), new PointImplementation(world_width-1, 0)));
+        points.addAll(Arrays.asList(new PointImpl(0,0), new PointImpl(100,100), new PointImpl(500,100), new PointImpl(world_width-1, 0)));
 
         return points;
 	}        		
 
-	public static GameMap getNewGameMap(){
+	public static GameMap getNewGameMap() throws RemoteException{
 		return new GameMapImpl(MatchBuilder.getNewHorizonSkeleton());		
 	}
 	
@@ -123,7 +121,7 @@ class MatchBuilder {
 		
 		for (Player player : players) {
 			int x = xPositions.get(player);
-			result.put(player, new PointImplementation(x, map.getY_Value(x)+Consts.PLAYER_RADIUS));
+			result.put(player, new PointImpl(x, map.getHorizonY_Value(x)+Consts.PLAYER_RADIUS));
 		};
 		return result;
 	}

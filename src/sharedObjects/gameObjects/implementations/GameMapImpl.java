@@ -1,41 +1,57 @@
 package sharedObjects.gameObjects.implementations;
 
+import gameManagement.Calculation;
+
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Random;
 
 import sharedObjects.gameObjects.interfaces.GameMap;
 import sharedObjects.gameObjects.interfaces.Point;
 
 public class GameMapImpl implements GameMap {
-	private ArrayList<Point> horizonSkeleton = null;
+
+	private static final long serialVersionUID = 3548478649677504938L;
+	private ArrayList<Point> horizonSkeleton;
+	private ArrayList<Point> horizonLine;
 	
-	public GameMapImpl(ArrayList<Point> horizonSkeleton) {
+	public GameMapImpl(ArrayList<Point> horizonSkeleton) throws RemoteException {
 		this.horizonSkeleton = horizonSkeleton;
+		this.horizonLine = getNewHorizonLine(horizonSkeleton);
 	}
        		
+	private ArrayList<Point> getNewHorizonLine(ArrayList<Point> horizonSkeleton) throws RemoteException{
+
+		ArrayList<Point> result = new ArrayList<Point>();
+		
+        Point start_point = horizonSkeleton.get(0);
+        
+        for (int i=1; i<horizonSkeleton.size(); i++){
+        	Point point = horizonSkeleton.get(i);
+        
+            for (int x=(int)start_point.getX(); x<=point.getX(); x++){
+                result.add(Calculation.interpolate_point(x, start_point, point));
+            }
+            start_point = point;
+            }
+            
+        result.add(start_point); // letzten Punkt noch extra einfügen
+
+        return result;
+        }
+	
 	@Override
 	public ArrayList<Point> getHorizonLine() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.horizonLine;
 	}
 
 	@Override
-	public Point getPlayer1Postion() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<Point> getHorizonSkeleton() throws RemoteException {
+		return this.horizonSkeleton;
 	}
 
 	@Override
-	public Point getPlayer2Postion() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int getY_Value(int x) throws RemoteException {
-		// TODO Auto-generated method stub
-		return 0;
+	public double getHorizonY_Value(int x) throws RemoteException {
+		return horizonLine.get(x).getY();
 	}
 
 }

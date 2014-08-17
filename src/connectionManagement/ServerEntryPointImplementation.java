@@ -3,9 +3,13 @@ package connectionManagement;
 import gameManagement.MatchImplementation;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
+
 import sharedObjects.connectionObjects.interfaces.ClientInterface;
 import sharedObjects.connectionObjects.interfaces.ServerEntryPoint;
+import sharedObjects.gameObjects.interfaces.Player;
 
 public class ServerEntryPointImplementation implements ServerEntryPoint {
 	
@@ -37,7 +41,7 @@ public class ServerEntryPointImplementation implements ServerEntryPoint {
 	private void startGame (ClientInterface firstPlayer, ClientInterface secondPlayer) throws RemoteException
 	{
 		System.out.println("StartGame");
-		MatchImplementation match = new MatchImplementation(firstPlayer.getPlayer(), secondPlayer.getPlayer());
+		MatchImplementation match = new MatchImplementation((ArrayList<Player>) Arrays.asList(firstPlayer.getPlayer(), secondPlayer.getPlayer()));
 		firstPlayer.gameObject(match);
 		secondPlayer.gameObject(match);
 	}
