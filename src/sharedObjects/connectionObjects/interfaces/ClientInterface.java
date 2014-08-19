@@ -14,7 +14,7 @@ public interface ClientInterface extends Remote {
 	 * @param map
 	 * @throws RemoteException
 	 */
-	public void gameObject (Match match) throws RemoteException;
+	public void setGameObjects (Match match) throws RemoteException;
 	
 	/**
 	 * Function called when a opponent fired a shot

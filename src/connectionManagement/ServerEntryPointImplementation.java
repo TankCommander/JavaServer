@@ -42,8 +42,8 @@ public class ServerEntryPointImplementation implements ServerEntryPoint {
 	{
 		System.out.println("StartGame");
 		MatchImplementation match = new MatchImplementation(new ArrayList<Player>(Arrays.asList(firstPlayer.getPlayer(), secondPlayer.getPlayer())));
-		firstPlayer.gameObject(match);
-		secondPlayer.gameObject(match);
+		firstPlayer.setGameObjects(match);
+		secondPlayer.setGameObjects(match);
 	}
 	
 	
