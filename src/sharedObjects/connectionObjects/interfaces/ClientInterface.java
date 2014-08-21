@@ -3,7 +3,7 @@ package sharedObjects.connectionObjects.interfaces;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import sharedObjects.gameObjects.interfaces.FiredObject;
+import sharedObjects.gameObjects.interfaces.FlightPath;
 import sharedObjects.gameObjects.interfaces.Match;
 import sharedObjects.gameObjects.interfaces.Player;
 
@@ -16,12 +16,13 @@ public interface ClientInterface extends Remote {
 	 */
 	public void setGameObjects (Match match) throws RemoteException;
 	
+	
 	/**
-	 * Function called when a opponent fired a shot
-	 * @param data
+	 * Function which will inform the client about a new flight path of the fired object
+	 * @param flightPath
 	 * @throws RemoteException
 	 */
-	public void opponentFired (FiredObject data) throws RemoteException;
+	public void setNewFlightPath (FlightPath flightPath) throws RemoteException;
 	
 	
 	/**

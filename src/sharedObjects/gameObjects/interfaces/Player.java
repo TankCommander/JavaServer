@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+import sharedObjects.connectionObjects.interfaces.ClientInterface;
+
 public interface Player extends Remote, Serializable {
 	
 	public String getName() throws RemoteException;
@@ -19,5 +21,8 @@ public interface Player extends Remote, Serializable {
 	
 	public double getAngele() throws RemoteException;
 	public void setAngle(double angle) throws RemoteException;
+	
+	public ClientInterface getClientInterface() throws RemoteException;
+	public void setClientInterface(ClientInterface cInterface);
 
 }

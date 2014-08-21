@@ -21,6 +21,7 @@ public class MatchImplementation implements Match, Serializable {
 	private Dictionary<Player, Point> playerPositions;
 	private ArrayList<Player> players;
 	private GameMap map;
+	private Player activePlayer;
 	
 	public MatchImplementation (ArrayList<Player> players) throws RemoteException
 	{
@@ -38,17 +39,41 @@ public class MatchImplementation implements Match, Serializable {
 	    playerPositions = MatchBuilder.getNewPlayerPositions(map, players);
 	    
 	    this.calculation = new Calculation(Consts.WORLD_WIDTH, map.getHorizonLine(), players, playerPositions);
+	    this.activePlayer = this.players.get(0);
 	}
 	
 	public Point getPlayerPosition(Player player){
 		return playerPositions.get(player);
 	}
 	
+	/**
+	 * Called when a player want to fire to the 
+	 */
 	@Override
-	public void Fire(ClientInterface sender, float angle, float power)
+	public boolean Fire(ClientInterface sender, float angle, float power)
 			throws RemoteException {
-		// TODO Auto-generated method stub
 		
+		//Check if the right player sends the message
+		if (sender.getPlayer() != this.activePlayer)
+		{
+			System.out.println("Wrong player sends fire Command");
+			return false;
+		}
+		
+		//Calculate the flight path
+		FlightPath path = this.calcFlightPath(sender.getPlayer(), angle, power);
+		
+		//Set the new active player
+		//TODO: Implement Code here
+		
+		
+		//Send the flight path to the clients
+		for (Player player : this.players) {
+			player.getClientInterface().setNewFlightPath(path);
+		}
+		
+		
+		return false;
 	}
 	
 	////////////////////
