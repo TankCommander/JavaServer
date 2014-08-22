@@ -18,6 +18,8 @@ public interface Match extends Remote, Serializable {
 	public GameMap getMap () throws RemoteException;
 	
 	public FlightPath calcFlightPath(Player source, double angle, double speed) throws RemoteException;
+
+	void setActivePlayer(Player activePlayer) throws RemoteException;
 	
 
 }

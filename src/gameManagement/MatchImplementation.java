@@ -17,6 +17,7 @@ public class MatchImplementation implements Match, Serializable {
 
 	private static final long serialVersionUID = -7945851571685082676L;
 	
+	private Player activePlayer;
 	private Calculation calculation;
 	private Dictionary<Player, Point> playerPositions;
 	private ArrayList<Player> players;
@@ -30,7 +31,9 @@ public class MatchImplementation implements Match, Serializable {
 		map = MatchBuilder.getNewGameMap();
 		
 		//Set the players
-		this.players = MatchBuilder.getShuffledPlayers(players);	
+		this.players = MatchBuilder.getShuffledPlayers(players);
+		this.activePlayer = this.players.get(0);
+		
 		//Set backreference for players
 	    for (Player player : players) 
 			player.setMatch(this);
@@ -56,7 +59,6 @@ public class MatchImplementation implements Match, Serializable {
 	//////////////////
 	@Override
 	public GameMap getMap() throws RemoteException {
-		// TODO Auto-generated method stub
 		return map;
 	}
 	
@@ -67,8 +69,12 @@ public class MatchImplementation implements Match, Serializable {
 
 	@Override
 	public Player getActivePlayer() {
-		// TODO Auto-generated method stub
-		return null;
+		return activePlayer;
+	}
+
+	@Override
+	public void setActivePlayer(Player activePlayer) {
+		this.activePlayer = activePlayer;
 	}
 
 	@Override

@@ -6,6 +6,8 @@ import gameManagement.gameObjects.implementations.PointImpl;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.Random;
@@ -14,10 +16,28 @@ import sharedObjects.gameObjects.interfaces.GameMap;
 import sharedObjects.gameObjects.interfaces.Player;
 import sharedObjects.gameObjects.interfaces.Point;
 
+class PointComparator implements Comparator<Point>{
+
+	@Override
+	public int compare(Point arg0, Point arg1) {
+		int result = 0;
+		try {
+			
+			result = (int)Math.signum(arg0.getX() - arg1.getX());
+			
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+}
+
 class MatchBuilder {
 	static Random random = new Random();
 
-	public static ArrayList<Point> getNewHorizonSkeleton(){
+	public static ArrayList<Point> getNewHorizonSkeleton() throws RemoteException{
 		
 		// TODO: random.seed() ?
 
@@ -36,40 +56,48 @@ class MatchBuilder {
         points.add(new PointImpl(world_width - 1,
         		Consts.MIN_HORIZON_HEIGHT + random.nextInt(Consts.MAX_HORIZON_HEIGHT + 1 - Consts.MIN_HORIZON_HEIGHT)));
 
-//        int max_x = world_width - 2;
+        int max_x = world_width - 2;
 
         while (points.size() < points_count && num_loops < MAX_LOOPS){
-        	/// TODO: Horizont erstellen
-        	break;
         	
-//            num_loops += 1;
-//            points.append(Point(MatchBuilder.f_random.randint(1, max_x),
-//                          MatchBuilder.f_random.randint(Consts.MIN_HORIZON_HEIGHT, Consts.MAX_HORIZON_HEIGHT)))
-//
-//            points.sort(key= lambda point: point.x)
-//
-//            start_point = points[0]
-//            is_valid = True
-//            for point in points[1::]:
-//                if point.x == start_point.x:
-//                    points.remove(point)
-//                else:
-//                    c = abs(Calculation.derivation(start_point, point))
-//                    if c > Consts.MAX_DERIVATION:
-//                        if point.x > (max_x): #Endpunkt nicht l�schen ?!
-//                            points.remove(start_point)
-//                        else:
-//                            points.remove(point)
-//                        # is_valid = False
-//                        # MatchBuilder.f_random.seed()
-//                        # break
-//                    else:
-//                        start_point = point
-//
+	        num_loops += 1;
+	        points.add(new PointImpl(random.nextInt(max_x-1)+1,
+	                      random.nextInt(Consts.MAX_HORIZON_HEIGHT-Consts.MIN_HORIZON_HEIGHT)+Consts.MIN_HORIZON_HEIGHT));
+	
+	        Collections.sort(points, new PointComparator());
+	
+	        Point start_point = null;
+
+	        Point point;
+	        
+	        for (int i = points.size()-1; i>=0; i--){
+	        	if (start_point == null){
+	        		start_point = points.get(i);
+	        	} else {
+	        		point = points.get(i);
+		            if (point.getX() == start_point.getX()){
+		                points.remove(point);
+		            } else {
+		                double c = Math.abs(Calculation.derivation(start_point, point));
+		                
+		                if (c > Consts.MAX_DERIVATION){
+		                	
+		                    if (point.getX() == 0) //: #Startpunkt nicht l�schen, sondern den vorherigen
+		                        points.remove(start_point);
+		                    else
+		                        points.remove(point);
+		                    
+		                } else {
+		                    start_point = point;
+		                }
+		                
+		            }
+	        	}
+	        }	
         }
         
-//        #TODO Random wieder aktivieren
-        points.addAll(Arrays.asList(new PointImpl(0,0), new PointImpl(100,100), new PointImpl(500,100), new PointImpl(world_width-1, 0)));
+////        #Testmap / Random wieder aktivieren
+//        points.addAll(Arrays.asList(new PointImpl(0,0), new PointImpl(100,100), new PointImpl(500,100), new PointImpl(world_width-1, 0)));
 
         return points;
 	}        		
