@@ -64,16 +64,35 @@ public class MatchImplementation implements Match, Serializable {
 		FlightPath path = this.calcFlightPath(sender.getPlayer(), angle, power);
 		
 		//Set the new active player
-		//TODO: Implement Code here
-		
+		this.activePlayer = this.foundNextPlayer(sender.getPlayer());
 		
 		//Send the flight path to the clients
 		for (Player player : this.players) {
 			player.getClientInterface().setNewFlightPath(path);
 		}
 		
+		return true;
+	}
+	
+	/**
+	 * Function which will found the player which should make the next turn
+	 * @param currentPlayer
+	 * @return
+	 * @throws RemoteException 
+	 */
+	private Player foundNextPlayer (Player currentPlayer) throws RemoteException
+	{
+		int i=0;
+		for (Player player : this.players) {
+			i++;
+			if (player.comparePlayers(currentPlayer))
+				break;
+		}
 		
-		return false;
+		if (i >= this.players.size())
+			i=0;
+		
+		return this.players.get(i);
 	}
 	
 	////////////////////
@@ -92,8 +111,7 @@ public class MatchImplementation implements Match, Serializable {
 
 	@Override
 	public Player getActivePlayer() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.activePlayer;
 	}
 
 	@Override

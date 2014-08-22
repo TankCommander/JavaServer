@@ -23,6 +23,10 @@ public interface Player extends Remote, Serializable {
 	public void setAngle(double angle) throws RemoteException;
 	
 	public ClientInterface getClientInterface() throws RemoteException;
-	public void setClientInterface(ClientInterface cInterface);
+	public void setClientInterface(ClientInterface cInterface) throws RemoteException;
+	
+	public String getID() throws RemoteException;
+	
+	public boolean comparePlayers(Player comparePlayer) throws RemoteException;
 
 }
