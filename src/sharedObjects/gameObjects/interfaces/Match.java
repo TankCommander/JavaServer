@@ -13,7 +13,7 @@ public interface Match extends Remote, Serializable {
 
 	ArrayList<Player> getPlayers () throws RemoteException;
 	
-	public boolean Fire (ClientInterface sender, float angle, float power) throws RemoteException;
+	public boolean Fire (ClientInterface sender, double angle, double power) throws RemoteException;
 	
 	public GameMap getMap () throws RemoteException;
 	

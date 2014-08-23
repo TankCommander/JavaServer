@@ -51,11 +51,11 @@ public class MatchImplementation implements Match, Serializable {
 	 * Called when a player want to fire to the 
 	 */
 	@Override
-	public boolean Fire(ClientInterface sender, float angle, float power)
+	public boolean Fire(ClientInterface sender, double angle, double power)
 			throws RemoteException {
 		
 		//Check if the right player sends the message
-		if (sender.getPlayer() != this.activePlayer)
+		if (!(sender.getPlayer().equals(this.activePlayer)))
 		{
 			System.out.println("Wrong player sends fire Command");
 			return false;
