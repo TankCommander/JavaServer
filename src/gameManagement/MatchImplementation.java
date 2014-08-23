@@ -17,7 +17,6 @@ public class MatchImplementation implements Match, Serializable {
 
 	private static final long serialVersionUID = -7945851571685082676L;
 	
-	private Player activePlayer;
 	private Calculation calculation;
 	private Dictionary<Player, Point> playerPositions;
 	private ArrayList<Player> players;
@@ -42,7 +41,6 @@ public class MatchImplementation implements Match, Serializable {
 	    playerPositions = MatchBuilder.getNewPlayerPositions(map, players);
 	    
 	    this.calculation = new Calculation(Consts.WORLD_WIDTH, map.getHorizonLine(), players, playerPositions);
-	    this.activePlayer = this.players.get(0);
 	}
 	
 	public Point getPlayerPosition(Player player){
