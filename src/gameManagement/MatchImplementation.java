@@ -34,15 +34,16 @@ public class MatchImplementation implements Match, Serializable {
 		this.players = MatchBuilder.getShuffledPlayers(players);
 		this.activePlayer = this.players.get(0);
 		
+	    playerPositions = MatchBuilder.getNewPlayerPositions(map, players);
+	    
 		//Set backreference for players
 	    for (Player player : players) 
 			player.setMatch(this);
 		
-	    playerPositions = MatchBuilder.getNewPlayerPositions(map, players);
-	    
 	    this.calculation = new Calculation(Consts.WORLD_WIDTH, map.getHorizonLine(), players, playerPositions);
 	}
 	
+	@Override
 	public Point getPlayerPosition(Player player){
 		return playerPositions.get(player);
 	}

@@ -56,7 +56,8 @@ public class Calculation {
             if (player != source){
                 // Selbstabschuss nicht zulassen, macht einige Probleme
                 Hit hit = __calc_target_hit(flugbahn, player);
-                flugbahn.setHit(hit);
+                if (hit != null)
+                	flugbahn.setHit(hit);
             };
         };
         

@@ -20,6 +20,8 @@ public interface Match extends Remote, Serializable {
 	public FlightPath calcFlightPath(Player source, double angle, double speed) throws RemoteException;
 
 	void setActivePlayer(Player activePlayer) throws RemoteException;
+
+	Point getPlayerPosition(Player player) throws RemoteException;
 	
 
 }
