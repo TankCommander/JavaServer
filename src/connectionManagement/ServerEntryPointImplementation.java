@@ -1,6 +1,6 @@
 package connectionManagement;
 
-import gameManagement.MatchImplementation;
+import gameManagement.MatchImpl;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -41,7 +41,7 @@ public class ServerEntryPointImplementation implements ServerEntryPoint {
 	private void startGame (ClientInterface firstPlayer, ClientInterface secondPlayer) throws RemoteException
 	{
 		System.out.println("StartGame");
-		MatchImplementation match = new MatchImplementation(new ArrayList<Player>(Arrays.asList(firstPlayer.getPlayer(), secondPlayer.getPlayer())));
+		MatchImpl match = new MatchImpl(new ArrayList<Player>(Arrays.asList(firstPlayer.getPlayer(), secondPlayer.getPlayer())));
 		firstPlayer.setGameObjects(match);
 		secondPlayer.setGameObjects(match);
 	}

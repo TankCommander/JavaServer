@@ -27,6 +27,7 @@ public interface Player extends Remote, Serializable {
 	
 	public String getID() throws RemoteException;
 	
-	public boolean comparePlayers(Player comparePlayer) throws RemoteException;
+	// besser equals überschreiben?
+	public boolean equalsPlayer(Player otherPlayer) throws RemoteException;
 
 }

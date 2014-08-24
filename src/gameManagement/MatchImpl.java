@@ -13,7 +13,7 @@ import sharedObjects.gameObjects.interfaces.Match;
 import sharedObjects.gameObjects.interfaces.Player;
 import sharedObjects.gameObjects.interfaces.Point;
 
-public class MatchImplementation implements Match, Serializable {
+public class MatchImpl implements Match, Serializable {
 
 	private static final long serialVersionUID = -7945851571685082676L;
 	
@@ -23,7 +23,7 @@ public class MatchImplementation implements Match, Serializable {
 	private GameMap map;
 	private Player activePlayer;
 	
-	public MatchImplementation (ArrayList<Player> players) throws RemoteException
+	public MatchImpl (ArrayList<Player> players) throws RemoteException
 	{
 		UnicastRemoteObject.exportObject(this, 0);
 		
@@ -87,7 +87,7 @@ public class MatchImplementation implements Match, Serializable {
 		int i=0;
 		for (Player player : this.players) {
 			i++;
-			if (player.comparePlayers(currentPlayer))
+			if (player.equalsPlayer(currentPlayer))
 				break;
 		}
 		

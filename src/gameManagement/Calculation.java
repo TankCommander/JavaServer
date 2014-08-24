@@ -53,7 +53,7 @@ public class Calculation {
         FlightPath flugbahn = this.__calc_flugbahn(source, angle, speed);
 
         for (Player player: this.players) {
-            if (player != source){
+            if (!player.equalsPlayer(source)){
                 // Selbstabschuss nicht zulassen, macht einige Probleme
                 Hit hit = __calc_target_hit(flugbahn, player);
                 if (hit != null)
