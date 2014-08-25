@@ -23,16 +23,16 @@ public class GameMapImpl implements GameMap {
 
 		ArrayList<Point> result = new ArrayList<Point>();
 		
-        Point start_point = horizonSkeleton.get(0);
+        Point start_point = null;
         
-        for (int i=1; i<horizonSkeleton.size(); i++){
-        	Point point = horizonSkeleton.get(i);
-        
-            for (int x=(int)start_point.getX(); x<=point.getX(); x++){
-                result.add(Calculation.interpolate_point(x, start_point, point));
-            }
+        for (Point point : horizonSkeleton){
+        	if (start_point != null){
+	            for (int x=start_point.getXasInt(); x<point.getX(); x++){
+	                result.add(Calculation.interpolate_point(x, start_point, point));
+	            }
+        	}
             start_point = point;
-            }
+        }
             
         result.add(start_point); // letzten Punkt noch extra einfuegen
 

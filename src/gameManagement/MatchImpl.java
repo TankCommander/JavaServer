@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Dictionary;
 
 import sharedObjects.connectionObjects.interfaces.ClientInterface;
@@ -55,6 +56,7 @@ public class MatchImpl implements Match, Serializable {
 	public boolean Fire(ClientInterface sender, double angle, double power)
 			throws RemoteException {
 		
+		System.out.printf("%s start fire\n", new Date().toString()); 
 		//Check if the right player sends the message
 		if (!(sender.getPlayer().equals(this.activePlayer)))
 		{
@@ -64,6 +66,7 @@ public class MatchImpl implements Match, Serializable {
 		
 		//Calculate the flight path
 		FlightPath path = this.calcFlightPath(sender.getPlayer(), angle, power);
+		System.out.printf("%s calculated flightPath\n", new Date().toString()); 
 		
 		//Set the new active player
 		this.activePlayer = this.foundNextPlayer(sender.getPlayer());
@@ -72,6 +75,8 @@ public class MatchImpl implements Match, Serializable {
 		for (Player player : this.players) {
 			player.getClientInterface().setNewFlightPath(path);
 		}
+		
+		System.out.printf("%s finished fire\n", new Date().toString()); 
 		
 		return true;
 	}
