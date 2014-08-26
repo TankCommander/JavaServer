@@ -13,6 +13,7 @@ import sharedObjects.gameObjects.interfaces.GameMap;
 import sharedObjects.gameObjects.interfaces.Match;
 import sharedObjects.gameObjects.interfaces.Player;
 import sharedObjects.gameObjects.interfaces.Point;
+import sharedObjects.gameObjects.interfaces.TimePoint;
 
 public class MatchImpl implements Match, Serializable {
 
@@ -66,6 +67,7 @@ public class MatchImpl implements Match, Serializable {
 		
 		//Calculate the flight path
 		FlightPath path = this.calcFlightPath(sender.getPlayer(), angle, power);
+		
 		System.out.printf("%s calculated flightPath\n", new Date().toString()); 
 		
 		//Set the new active player
