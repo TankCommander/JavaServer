@@ -32,6 +32,10 @@ public class Calculation {
 		this.playerPositions = playerPositions; 
 	}
   
+	public static double DegreeToRadiant(double degree){
+		return degree / 180 * Math.PI;
+	}
+	
 	public static double derivation(Point point_0, Point point_1) throws RemoteException{
     		
     	double result = 0;
