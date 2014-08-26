@@ -79,6 +79,13 @@ public class Calculation {
             }
         }
         
+		//redu
+		ArrayList<TimePoint> reducedPoints = new ArrayList<TimePoint>(flugbahn.getTimePoints().size()/10);
+		for (int i=0; i<flugbahn.getTimePoints().size(); i += 10){
+			reducedPoints.add(flugbahn.getTimePoints().get(i));
+		}
+		flugbahn.setTimePoints(reducedPoints);
+		                
         return flugbahn;
     };
     
