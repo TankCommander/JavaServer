@@ -2,6 +2,7 @@ package gameManagement;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
+import java.rmi.server.RemoteObject;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,7 +16,7 @@ import sharedObjects.gameObjects.interfaces.Player;
 import sharedObjects.gameObjects.interfaces.Point;
 import sharedObjects.gameObjects.interfaces.TimePoint;
 
-public class MatchImpl implements Match, Serializable {
+public class MatchImpl extends UnicastRemoteObject implements Match, Serializable {
 
 	private static final long serialVersionUID = -7945851571685082676L;
 	
@@ -27,7 +28,7 @@ public class MatchImpl implements Match, Serializable {
 	
 	public MatchImpl (ArrayList<Player> players) throws RemoteException
 	{
-		UnicastRemoteObject.exportObject(this, 0);
+//		UnicastRemoteObject.exportObject(this, 0); // macht UnicastRemoteObject
 		
 		//Create the Map
 		map = MatchBuilder.getNewGameMap();

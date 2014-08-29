@@ -114,8 +114,8 @@ public class Calculation {
 //        # return bullet_pos.y - Consts.BULLET_RADIUS < self.__horizon[int(round(bullet_pos.x))]
     }
     
-    private boolean __is_out_of_radius(Player origin, Point point) throws RemoteException{
-        return Consts.PLAYER_RADIUS < Math.hypot(origin.getPosition().getX() - point.getX(), origin.getPosition().getY() - point.getY());
+    private boolean __is_out_of_radius(Point origin_pos, Point point) throws RemoteException{
+        return Consts.PLAYER_RADIUS < Math.hypot(origin_pos.getX() - point.getX(), origin_pos.getY() - point.getY());
     }
 
     private double __calc_target_hit_percent(Point target_pos, Point bullet_pos) throws RemoteException{
@@ -139,7 +139,8 @@ public class Calculation {
     private Hit __calc_target_hit(FlightPath flugbahn, Player target) throws RemoteException{
         Hit result = new HitImpl(0,0,0,0,target);
 
-        Point target_pos = playerPositions.get(target);
+        Point temp_target_pos = playerPositions.get(target);
+        Point target_pos = new PointImpl(temp_target_pos.getX(), temp_target_pos.getY());
 
         // Rechteck um Ziel festlegen
         Point topLeft = new PointImpl(target_pos.getX() - Consts.PLAYER_RADIUS, target_pos.getY() + Consts.PLAYER_RADIUS);
@@ -168,9 +169,11 @@ public class Calculation {
     }
     
     private FlightPath __calc_flugbahn(Player source, double angle, double speed) throws RemoteException{
-    	FlightPath result = new FlightPathImpl(source, new TimePointImpl(0,0,0));
 
-        Point source_pos = source.getPosition();
+        Point temp_source_pos = source.getPosition();
+        Point source_pos = new PointImpl(temp_source_pos.getX(), temp_source_pos.getY());
+    	FlightPath result = new FlightPathImpl(source, new TimePointImpl(source_pos.getX(), source_pos.getY(), 0));
+        
         double t = Consts.TIME_RESOLUTION;
         TimePoint point = __calc_pos(t, source_pos, angle, speed);
         result.getTimePoints().add(point);
@@ -179,7 +182,7 @@ public class Calculation {
                 t += Consts.TIME_RESOLUTION;
                 point = __calc_pos(t, source_pos, angle, speed);
                 if (point.getY() <= Consts.WORLD_HEIGHT + Consts.BULLET_RADIUS &&
-                    __is_out_of_radius(source, point)){ // darf / muss dr�ber gehen
+                    __is_out_of_radius(source_pos, point)){ // darf / muss dr�ber gehen
                     result.getTimePoints().add(point);
                 }
         }
