@@ -7,7 +7,11 @@ import gameManagement.gameObjects.implementations.TimePointImpl;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Dictionary;
+
+
 
 
 import sharedObjects.gameObjects.interfaces.FlightPath;
@@ -68,24 +72,24 @@ public class Calculation {
         for (Hit hit : flugbahn.getHits())
                 hit.getTarget().addDamage(hit.getPercent());
 
-        // Flugbahn k�rzen, endet beim ersten Treffer!
-        if (!flugbahn.getHits().isEmpty()){
-            for (int i=0; i<flugbahn.getTimePoints().size()-1; i++){
-            	// einzeln durchgehen, zwischendurch k�nnen welche fehlen...
-                if (flugbahn.getTimePoints().get(i).getT() > flugbahn.getHits().get(0).getT()){
-                    flugbahn.setTimePoints((ArrayList<TimePoint>) flugbahn.getTimePoints().subList(0, i-1));
-                    break;
-                }
-            }
-        }
-        
 		//redu
 		ArrayList<TimePoint> reducedPoints = new ArrayList<TimePoint>(flugbahn.getTimePoints().size()/10);
 		for (int i=0; i<flugbahn.getTimePoints().size(); i += 10){
 			reducedPoints.add(flugbahn.getTimePoints().get(i));
 		}
 		flugbahn.setTimePoints(reducedPoints);
-		                
+
+        // Flugbahn k�rzen, endet beim ersten Treffer!
+        if (!flugbahn.getHits().isEmpty()){
+            for (int i=0; i<flugbahn.getTimePoints().size()-1; i++){
+            	// einzeln durchgehen, zwischendurch k�nnen welche fehlen...
+                if (flugbahn.getTimePoints().get(i).getT() > flugbahn.getHits().get(0).getT()){
+                    flugbahn.setTimePoints(new ArrayList<TimePoint>(flugbahn.getTimePoints().subList(0, i-1)));
+                    break;
+                }
+            }
+        }
+        		
         return flugbahn;
     };
     
@@ -130,7 +134,7 @@ public class Calculation {
 //            # �berdeckung der Kreisradien als Ma� f�r Treffer-% ermitteln
 //            # ggf. Fl�cheninhalt der �berdeckung als genaueres Trefferma� berechnen
 //            # R�ckgabe %-genau
-            return Math.round(100*(double)(overlap) / distanceRadii) / 100;
+            return (double) Math.round(100*(double)(overlap) / distanceRadii) / 100;
         } else {
             return 0;
         }
@@ -182,7 +186,7 @@ public class Calculation {
                 t += Consts.TIME_RESOLUTION;
                 point = __calc_pos(t, source_pos, angle, speed);
                 if (point.getY() <= Consts.WORLD_HEIGHT + Consts.BULLET_RADIUS &&
-                    __is_out_of_radius(source_pos, point)){ // darf / muss dr�ber gehen
+                    __is_out_of_radius(source_pos, point)){ // darf / muss drüber gehen
                     result.getTimePoints().add(point);
                 }
         }

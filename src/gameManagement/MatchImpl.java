@@ -28,8 +28,6 @@ public class MatchImpl extends UnicastRemoteObject implements Match, Serializabl
 	
 	public MatchImpl (ArrayList<Player> players) throws RemoteException
 	{
-//		UnicastRemoteObject.exportObject(this, 0); // macht UnicastRemoteObject
-		
 		//Create the Map
 		map = MatchBuilder.getNewGameMap();
 		
@@ -39,11 +37,12 @@ public class MatchImpl extends UnicastRemoteObject implements Match, Serializabl
 		
 	    playerPositions = MatchBuilder.getNewPlayerPositions(map, players);
 	    
-		//Set backreference for players
+		//Set back reference for players
 	    for (Player player : players) 
 			player.setMatch(this);
 		
-	    this.calculation = new Calculation(Consts.WORLD_WIDTH, map.getHorizonLine(), players, playerPositions);
+	    this.calculation = new Calculation(Consts.WORLD_WIDTH, map.getHorizonLine(),
+	    						players, playerPositions);
 	}
 	
 	@Override
