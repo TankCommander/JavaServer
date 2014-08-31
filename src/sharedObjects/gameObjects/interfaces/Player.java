@@ -1,5 +1,6 @@
 package sharedObjects.gameObjects.interfaces;
 
+import java.awt.Color;
 import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -27,7 +28,11 @@ public interface Player extends Remote, Serializable {
 	
 	public String getID() throws RemoteException;
 	
-	// besser equals überschreiben?
+	// besser equals ï¿½berschreiben?
 	public boolean equalsPlayer(Player otherPlayer) throws RemoteException;
+
+	public void setColor(Color color) throws RemoteException;
+	public Color getColor() throws RemoteException;
+
 
 }
