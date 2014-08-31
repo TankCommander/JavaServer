@@ -2,7 +2,6 @@ package gameManagement;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
-import java.rmi.server.RemoteObject;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,7 +13,6 @@ import sharedObjects.gameObjects.interfaces.GameMap;
 import sharedObjects.gameObjects.interfaces.Match;
 import sharedObjects.gameObjects.interfaces.Player;
 import sharedObjects.gameObjects.interfaces.Point;
-import sharedObjects.gameObjects.interfaces.TimePoint;
 
 public class MatchImpl extends UnicastRemoteObject implements Match, Serializable {
 
