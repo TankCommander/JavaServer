@@ -29,8 +29,7 @@ class PointComparator implements Comparator<Point>{
 			e.printStackTrace();
 		}
 		return result;
-	}
-	
+	}	
 }
 
 class MatchBuilder {

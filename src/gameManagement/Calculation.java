@@ -171,16 +171,20 @@ public class Calculation {
 
         Point temp_source_pos = source.getPosition();
         Point source_pos = new PointImpl(temp_source_pos.getX(), temp_source_pos.getY());
-    	FlightPath result = new FlightPathImpl(source, new TimePointImpl(source_pos.getX(), source_pos.getY(), 0));
+//    	FlightPath result = new FlightPathImpl(source, new TimePointImpl(source_pos.getX(), source_pos.getY(), 0));
+        // ohne Startpunkt
+    	FlightPath result = new FlightPathImpl(source);
         
         double t = Consts.TIME_RESOLUTION;
         TimePoint point = __calc_pos(t, source_pos, angle, speed);
-        result.getTimePoints().add(point);
+//        result.getTimePoints().add(point);
 
         while (__point_is_in_world(point) && !__is_horizon_hit(point)){
                 t += Consts.TIME_RESOLUTION;
                 point = __calc_pos(t, source_pos, angle, speed);
-                if (point.getY() <= Consts.WORLD_HEIGHT + Consts.BULLET_RADIUS &&
+            	// doch alle y eintragen, für delay
+                if (
+//                point.getY() <= Consts.WORLD_HEIGHT + Consts.BULLET_RADIUS &&
                     __is_out_of_radius(source_pos, point)){ // darf / muss drüber gehen
                     result.getTimePoints().add(point);
                 }
