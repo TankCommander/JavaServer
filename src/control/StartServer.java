@@ -26,7 +26,7 @@ public class StartServer {
 	    ServerEntryPoint stub = (ServerEntryPoint) UnicastRemoteObject.exportObject(impl, 0);
 	    
 	    //Set the Logging
-	    RemoteServer.setLog(System.out);
+	    //RemoteServer.setLog(System.out);
 	    
 	    Registry registry = LocateRegistry.getRegistry();
 	    registry.rebind( "ServerEntryPoint", stub );
