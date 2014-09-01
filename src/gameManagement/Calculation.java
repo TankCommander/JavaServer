@@ -171,6 +171,7 @@ public class Calculation {
 
         Point temp_source_pos = source.getPosition();
         Point source_pos = new PointImpl(temp_source_pos.getX(), temp_source_pos.getY());
+        
 //    	FlightPath result = new FlightPathImpl(source, new TimePointImpl(source_pos.getX(), source_pos.getY(), 0));
         // ohne Startpunkt
     	FlightPath result = new FlightPathImpl(source);
@@ -194,7 +195,7 @@ public class Calculation {
     }
 
     TimePoint __calc_pos(double t, Point source_pos, double angle, double speed) throws RemoteException{
-//        # ohne Ber�cksichtigung Luftwiderstand
+//        # ohne Berücksichtigung Luftwiderstand
 //        #v_x0=cos(phi)*v_0
 //        #v_y0=sin(phi)*v_0
 //        #s_x=v_x0 * t
