@@ -1,8 +1,8 @@
 package gameManagement;
 
 public class Consts {
-	public static final int POINTS_PER_REFRESH = 6;
-    public static final long REFRESH_RATE_MS = 80;
+	public static final int POINTS_PER_REFRESH = 8;
+    public static final long REFRESH_RATE_MS = 40;
     
 	public static final int PLAYER_RADIUS = 10;
     public static final int BULLET_RADIUS = 3;
