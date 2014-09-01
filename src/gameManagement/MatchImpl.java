@@ -76,7 +76,23 @@ public class MatchImpl extends UnicastRemoteObject implements Match, Serializabl
 			player.getClientInterface().setNewFlightPath(path);
 		}
 		
-		System.out.printf("%s finished fire\n", new Date().toString()); 
+		//Check if one player won the game
+		for (Player player : this.players) {
+			if (player.getDamage() >= 1.0)
+			{
+				for (Player playerWinner : this.players)
+				{
+					if (playerWinner.equalsPlayer(player))
+						playerWinner.getClientInterface().gameEnded(false);
+					else
+						playerWinner.getClientInterface().gameEnded(true);
+				}
+			}
+		}
+		
+		
+		System.out.printf("%s finished fire\n", new Date().toString());
+		
 		
 		return true;
 	}

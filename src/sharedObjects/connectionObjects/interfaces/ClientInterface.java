@@ -38,5 +38,11 @@ public interface ClientInterface extends Remote {
 	 * @throws RemoteException
 	 */
 	public Player getPlayer () throws RemoteException;
+	
+	/**
+	 * Function called when a game is finished
+	 * @throws RemoteException
+	 */
+	public void gameEnded (boolean winner) throws RemoteException;
 
 }
