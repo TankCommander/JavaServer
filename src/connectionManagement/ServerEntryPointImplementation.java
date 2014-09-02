@@ -17,17 +17,32 @@ import java.util.TimerTask;
 
 import sharedObjects.connectionObjects.interfaces.ClientInterface;
 import sharedObjects.connectionObjects.interfaces.ServerEntryPoint;
+import sharedObjects.gameObjects.interfaces.Match;
 import sharedObjects.gameObjects.interfaces.Player;
 
 public class ServerEntryPointImplementation implements ServerEntryPoint {
 	
-	private Map<Player, Long> keepAliveMap = new Hashtable<Player, Long>();
+	private Hashtable<Player, Long> keepAliveMap = new Hashtable<Player, Long>();
 
 	private void broadcastPlayerLost(Player lostPlayer) throws RemoteException {
-		for (Player player : lostPlayer.getMatch().getPlayers()) {
-			if (!player.equalsPlayer(lostPlayer)){
-				player.getClientInterface().connectionLost(true);
+		Match match = null;
+		
+		for (Player player : keepAliveMap.keySet()) {
+			try {
+				match = player.getMatch();
+				break;
+			} catch (RemoteException e) {
+				synchronized (keepAliveMap) {
+					keepAliveMap.remove(player);
+				}
 			}
+		}
+		for (Player player : match.getPlayers()) {
+				try {
+					player.getClientInterface().connectionLost(true);
+				} catch (Exception e) {
+					
+				}
 		}
 	};
 	
@@ -39,9 +54,12 @@ public class ServerEntryPointImplementation implements ServerEntryPoint {
 			public void run() {
 				for (Entry<Player, Long> entry : keepAliveMap.entrySet()) {
 					if (System.currentTimeMillis() > (entry.getValue() + Consts.TIME_OUT_TIME)){
+						System.out.println("Player lost Conneciton");
 						try {
 							broadcastPlayerLost(entry.getKey());
-						} catch (RemoteException e) {}
+						} catch (RemoteException e) {
+							System.out.println(e.getLocalizedMessage());
+						}
 					}
 				} 				
 			}
@@ -82,7 +100,9 @@ public class ServerEntryPointImplementation implements ServerEntryPoint {
 
 	@Override
 	public void receiveKeepAlive(Player player) throws RemoteException {
-		keepAliveMap.put(player, System.currentTimeMillis());		
+		synchronized (keepAliveMap) {
+			keepAliveMap.put(player, System.currentTimeMillis());
+		}
 	}
 	
 	

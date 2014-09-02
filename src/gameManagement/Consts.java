@@ -27,7 +27,7 @@ public class Consts {
     public static final int WAITFORPLAYER = 1;
     public static final int GAMERUNNING = 2;
     public static final int GAMEFINSIHED = 3;
-	public static final Long TIME_OUT_TIME = 5000l;
+	public static final Long TIME_OUT_TIME = 3000l;
     
 //    #Constants for Server commands
 //    ##############################
