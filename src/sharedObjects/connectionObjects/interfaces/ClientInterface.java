@@ -27,9 +27,10 @@ public interface ClientInterface extends Remote {
 	
 	/**
 	 * Function called when the server lost the connection to an Opponent
+	 * @param b 
 	 * @throws RemoteException
 	 */
-	public void connectionLost ()  throws RemoteException;
+	public void connectionLost (boolean b)  throws RemoteException;
 	
 	
 	/**
